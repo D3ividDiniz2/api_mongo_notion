@@ -37,11 +37,6 @@ router.post("/login",async (req,res)=>{
     if(!email || !password){
         res.status(422).json({message:"erro"});
     }
-    
-    const user = {
-        email,
-        password
-    }
 
     try{
         const response = await Users.findOne({email:email, password:password})

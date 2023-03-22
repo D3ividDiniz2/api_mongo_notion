@@ -4,14 +4,15 @@ const express = require('express'),
 
 // define the home page route
 router.post('/',  async (req,res)=>{
-    const {title,content} = req.body;
+    const {title,content,user_id} = req.body;
     if(!title){
         res.status(422).json({message:"erro"});
     }
 
     const notebook = {
         title,
-        content
+        content,
+        user_id
     }
 
     try{
@@ -21,9 +22,11 @@ router.post('/',  async (req,res)=>{
         res.status(500).json({status:false, message:err});
     }
 })
-router.get('/', async (req,res)=>{
+router.get('/:user', async (req,res)=>{
+    const user = req.params.user;
+    
     try{
-        const notes = await Notes.find();
+        const notes = await Notes.findById({user_id:user});
         res.status(201).json(notes)
 
     }catch(err){
@@ -31,10 +34,12 @@ router.get('/', async (req,res)=>{
 
     }
 })
-router.get('/:id', async (req,res)=>{
+router.get('/:user/:id', async (req,res)=>{
     const id = req.params.id;
+    const user = req.params.user;
+
     try{
-        const notes = await Notes.findOne({_id:id});
+        const notes = await Notes.findOne({_id:id, user_id:user});
         res.status(201).json(notes)
 
     }catch(err){

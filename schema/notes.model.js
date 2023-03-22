@@ -4,7 +4,7 @@ const express = require('express'),
       app = express(),
       port = 3000;
 
-const schema = new mongoose.Schema({ title: 'string', content: 'string' });
+const schema = new mongoose.Schema({ title: 'string', content: 'string' , user_id: 'string'});
 const Notes = mongoose.model('Note', schema);
 
 module.exports = Notes;
